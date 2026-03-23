@@ -16,9 +16,15 @@ import {
   Workflow,
   Braces,
   Atom,
+  Cpu,
   Database,
   Wind,
-  Globe
+  Globe,
+  Server,
+  Code2,
+  MapPin,
+  GraduationCap,
+  BadgeCheck
 } from "lucide-react";
 import { navItems, projects, services } from "@/data/site";
 import { SceneCanvas } from "@/components/scene-canvas";
@@ -304,19 +310,34 @@ export function PortfolioPage() {
 
           <div className="mt-6 rounded-2xl border border-slate-200/10 bg-slate-950/35 p-4">
             <div className="grid gap-3 text-sm text-slate-200/90 sm:grid-cols-[140px_1fr] sm:items-center">
-              <p className="font-semibold text-white">Email</p>
+              <p className="inline-flex items-center gap-2 font-semibold text-white">
+                <Mail className="h-4 w-4 text-sky-200" />
+                Email
+              </p>
               <a className="text-slate-200 hover:text-sky-200" href="mailto:yamamotokim4@gmail.com">yamamotokim4@gmail.com</a>
 
-              <p className="font-semibold text-white">Location</p>
+              <p className="inline-flex items-center gap-2 font-semibold text-white">
+                <MapPin className="h-4 w-4 text-sky-200" />
+                Location
+              </p>
               <p>Calauan, Laguna, Philippines</p>
 
-              <p className="font-semibold text-white">Education</p>
+              <p className="inline-flex items-center gap-2 font-semibold text-white">
+                <GraduationCap className="h-4 w-4 text-sky-200" />
+                Education
+              </p>
               <p>PUP Calauan Campus, Laguna</p>
 
-              <p className="font-semibold text-white">Status</p>
+              <p className="inline-flex items-center gap-2 font-semibold text-white">
+                <BadgeCheck className="h-4 w-4 text-sky-200" />
+                Status
+              </p>
               <p>Open to Opportunities ✅</p>
 
-              <p className="font-semibold text-white">GitHub</p>
+              <p className="inline-flex items-center gap-2 font-semibold text-white">
+                <Github className="h-4 w-4 text-sky-200" />
+                GitHub
+              </p>
               <a
                 href="https://github.com/parzinal"
                 target="_blank"
@@ -458,29 +479,92 @@ export function PortfolioPage() {
       </section>
 
       <section id="technology" className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">
-        <h2 className="font-[family-name:var(--font-syne)] text-3xl text-white md:text-4xl">Technology and Tools Using</h2>
+        <h2 className="font-[family-name:var(--font-syne)] text-3xl text-white md:text-4xl">Technologies &amp; Tools</h2>
         <div className="mt-7 rounded-3xl border border-slate-200/15 bg-slate-900/52 p-6 md:p-7">
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-            {[
-              { name: "PHP", Icon: FileCode2 },
-              { name: "Laravel", Icon: Workflow },
-              { name: "JavaScript", Icon: Braces },
-              { name: "React", Icon: Atom },
-              { name: "MySQL", Icon: Database },
-              { name: "GitHub", Icon: Github },
-              { name: "Tailwind", Icon: Wind },
-              { name: "HTML/CSS", Icon: Globe }
-            ].map(({ name, Icon }) => (
-              <div
-                key={name}
-                className="rounded-2xl border border-slate-200/15 bg-slate-950/55 p-4 transition hover:border-sky-300/45 hover:bg-slate-900/70"
-              >
-                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-slate-800/80 text-sky-200">
-                  <Icon className="h-5 w-5" />
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-300/75">What I Work With</p>
+
+          <div className="mt-6 border-t border-slate-200/10 pt-5">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-slate-300/80">Backend</p>
+            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-5">
+              {[
+                { name: "PHP", type: "Language", Icon: FileCode2 },
+                { name: "Python", type: "Language", Icon: Cpu },
+                { name: "Laravel", type: "Framework", Icon: Workflow },
+                { name: "Django", type: "Framework", Icon: Server },
+                { name: "MySQL", type: "Database", Icon: Database }
+              ].map(({ name, type, Icon }) => (
+                <div
+                  key={name}
+                  className="rounded-xl border border-slate-200/15 bg-slate-950/55 px-4 py-3 transition hover:border-sky-300/45 hover:bg-slate-900/70 hover:shadow-[0_0_22px_rgba(56,189,248,0.2)]"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/85 text-sky-200">
+                      <Icon className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <p className="text-base font-semibold leading-tight text-white">{name}</p>
+                      <p className="text-xs text-slate-300/75">{type}</p>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-sm font-semibold text-slate-100">{name}</p>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-5 border-t border-slate-200/10 pt-5">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-slate-300/80">Frontend</p>
+            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-7">
+              {[
+                { name: "HTML", type: "Markup", Icon: Globe },
+                { name: "CSS", type: "Styling", Icon: FileCode2 },
+                { name: "JavaScript", type: "Language", Icon: Braces },
+                { name: "TypeScript", type: "Language", Icon: Code2 },
+                { name: "React", type: "Library", Icon: Atom },
+                { name: "Next.js", type: "Framework", Icon: Globe },
+                { name: "Tailwind CSS", type: "CSS Framework", Icon: Wind }
+              ].map(({ name, type, Icon }) => (
+                <div
+                  key={name}
+                  className="rounded-xl border border-slate-200/15 bg-slate-950/55 px-4 py-3 transition hover:border-sky-300/45 hover:bg-slate-900/70 hover:shadow-[0_0_22px_rgba(56,189,248,0.2)]"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/85 text-sky-200">
+                      <Icon className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <p className="text-base font-semibold leading-tight text-white">{name}</p>
+                      <p className="text-xs text-slate-300/75">{type}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-5 border-t border-slate-200/10 pt-5">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-slate-300/80">Tools &amp; Environment</p>
+            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                { name: "GitHub", type: "Version Control", Icon: Github },
+                { name: "VS Code", type: "Editor", Icon: Code2 },
+                { name: "Laragon", type: "Local Server", Icon: Server }
+              ].map(({ name, type, Icon }) => (
+                <div
+                  key={name}
+                  className="rounded-xl border border-slate-200/15 bg-slate-950/55 px-4 py-3 transition hover:border-sky-300/45 hover:bg-slate-900/70 hover:shadow-[0_0_22px_rgba(56,189,248,0.2)]"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/85 text-sky-200">
+                      <Icon className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <p className="text-base font-semibold leading-tight text-white">{name}</p>
+                      <p className="text-xs text-slate-300/75">{type}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
