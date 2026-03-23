@@ -4,7 +4,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Sparkles, CheckCircle2, Github, Linkedin, Mail, ChevronLeft, ChevronRight } from "lucide-react";
-import { navItems, projects, services, testimonials } from "@/data/site";
+import { navItems, projects, services } from "@/data/site";
 import { SceneCanvas } from "@/components/scene-canvas";
 import { BackgroundCanvas } from "@/components/background-canvas";
 
@@ -274,6 +274,50 @@ export function PortfolioPage() {
         </motion.div>
       </section>
 
+      <section id="about" className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">
+        <div className="mb-8 text-center">
+          <h2 className="font-[family-name:var(--font-syne)] text-3xl text-white md:text-4xl">About Me</h2>
+          <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-clay" />
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-[1fr_1.2fr] md:items-center">
+          <div className="overflow-hidden rounded-3xl border border-clay/80 bg-slate-950/55 p-2 shadow-card">
+            <div className="relative h-[320px] w-full overflow-hidden rounded-2xl md:h-[420px]">
+              <Image
+                src="/images/cv-kim-yamamoto.png"
+                alt="Kim Yamamoto portrait"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 45vw"
+              />
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-slate-200/15 bg-slate-900/52 p-7 md:p-8">
+            <h3 className="font-[family-name:var(--font-syne)] text-3xl text-white">Who I Am</h3>
+            <p className="mt-4 text-base leading-relaxed text-slate-200/85">
+              I am a passionate student aspiring to become a skilled web developer. Currently learning and building projects to improve my skills in web technologies. I am dedicated to writing clean, efficient code and constantly striving to learn new technologies and best practices in web development.
+            </p>
+
+            <div className="mt-6 grid gap-3 text-sm text-slate-200/90 sm:grid-cols-2">
+              <p><span className="font-semibold text-white">Age:</span> 24</p>
+              <p><span className="font-semibold text-white">Phone:</span> +63 999 968 5762</p>
+              <p><span className="font-semibold text-white">Email:</span> yamamotokim4@gmail.com</p>
+              <p><span className="font-semibold text-white">Place:</span> Calauan, Laguna, Philippines</p>
+              <p className="sm:col-span-2"><span className="font-semibold text-white">Education:</span> PUP Calauan Campus, Laguna</p>
+            </div>
+
+            <a
+              href="mailto:yamamotokim4@gmail.com"
+              className="mt-7 inline-flex items-center gap-2 rounded-xl border border-clay/90 px-5 py-3 text-sm font-semibold text-clay transition hover:bg-clay hover:text-slate-950"
+            >
+              Contact Me
+              <ArrowUpRight className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+
       <section id="work" className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">
         <div className="mb-8 flex items-end justify-between gap-4">
           <h2 className="font-[family-name:var(--font-syne)] text-3xl text-white md:text-4xl">Selected Projects</h2>
@@ -416,28 +460,6 @@ export function PortfolioPage() {
               <p className="mt-3 text-sm leading-relaxed text-slate-200/80">{service.details}</p>
             </motion.div>
           ))}
-        </div>
-      </section>
-
-      <section id="about" className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-3xl border border-slate-200/15 bg-slate-900/52 p-7">
-            <h2 className="font-[family-name:var(--font-syne)] text-3xl text-white">Why clients call me back</h2>
-            <p className="mt-4 text-sm leading-relaxed text-slate-200/80">
-              I combine high craft with practical execution. Teams work with me because they get strategic thinking, clean implementation, and a product that feels premium.
-            </p>
-          </div>
-
-          <div className="space-y-4 rounded-3xl border border-slate-200/15 bg-slate-900/52 p-7">
-            {testimonials.map((testimonial) => (
-              <blockquote key={testimonial.name} className="border-l-2 border-sky-300/70 pl-4">
-                <p className="text-sm leading-relaxed text-slate-200/80">&ldquo;{testimonial.quote}&rdquo;</p>
-                <footer className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-300/90">
-                  {testimonial.name} · {testimonial.role}
-                </footer>
-              </blockquote>
-            ))}
-          </div>
         </div>
       </section>
 
