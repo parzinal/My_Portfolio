@@ -71,19 +71,19 @@ export const projects: PortfolioProject[] = [
 
 export const services: Service[] = [
   {
-    title: "Product Design + Frontend",
+    title: "Web Development",
     details:
-      "From UX discovery to shipped interfaces with delightful interactions and strong performance."
+      "Building clean, responsive websites and web interfaces using HTML, CSS, JavaScript and PHP. Focused on creating pages that work well and look good."
   },
   {
-    title: "Full-stack Delivery",
+    title: "Backend Development",
     details:
-      "Robust APIs, auth, and data workflows powered by Supabase and secure deployment practices."
+      "Developing server-side logic, databases, and basic APIs using PHP and Laravel. I build the parts users don't see but always depend on."
   },
   {
-    title: "Motion and 3D Craft",
+    title: "System Development",
     details:
-      "Meaningful animation systems and subtle 3D depth that support storytelling and brand identity."
+      "Building functional web-based systems like management tools, dashboards, and CRUD applications. From school projects to real-world use cases."
   }
 ];
 

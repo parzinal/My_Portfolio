@@ -3,7 +3,23 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Sparkles, CheckCircle2, Github, Linkedin, Mail, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ArrowUpRight,
+  Sparkles,
+  CheckCircle2,
+  Github,
+  Linkedin,
+  Mail,
+  ChevronLeft,
+  ChevronRight,
+  FileCode2,
+  Workflow,
+  Braces,
+  Atom,
+  Database,
+  Wind,
+  Globe
+} from "lucide-react";
 import { navItems, projects, services } from "@/data/site";
 import { SceneCanvas } from "@/components/scene-canvas";
 import { BackgroundCanvas } from "@/components/background-canvas";
@@ -280,40 +296,37 @@ export function PortfolioPage() {
           <div className="mx-auto mt-4 h-px w-20 bg-sky-300/70" />
         </div>
 
-        <div className="grid gap-6 md:grid-cols-[1fr_1.15fr] md:items-center">
-          <div className="rounded-[2rem] border border-slate-200/20 bg-slate-900/45 p-4 backdrop-blur">
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-slate-200/15 bg-slate-100/95">
-              <Image
-                src="/images/kim.jpg"
-                alt="Kim Yamamoto portrait"
-                fill
-                className="object-contain p-2"
-                sizes="(max-width: 768px) 100vw, 45vw"
-              />
+        <div className="mx-auto max-w-4xl rounded-[2rem] border border-slate-200/20 bg-slate-900/45 p-7 backdrop-blur md:p-8">
+          <h3 className="font-[family-name:var(--font-syne)] text-3xl text-white">Who I Am</h3>
+          <p className="mt-4 text-base leading-relaxed text-slate-200/85">
+            I&apos;m a Future Software Engineer from Calauan, Laguna, studying at PUP Calauan Campus. I build web applications that solve real problems not just ones that look good. Clean code, clear thinking, and a hunger to keep growing.
+          </p>
+
+          <div className="mt-6 rounded-2xl border border-slate-200/10 bg-slate-950/35 p-4">
+            <div className="grid gap-3 text-sm text-slate-200/90 sm:grid-cols-[140px_1fr] sm:items-center">
+              <p className="font-semibold text-white">Email</p>
+              <a className="text-slate-200 hover:text-sky-200" href="mailto:yamamotokim4@gmail.com">yamamotokim4@gmail.com</a>
+
+              <p className="font-semibold text-white">Location</p>
+              <p>Calauan, Laguna, Philippines</p>
+
+              <p className="font-semibold text-white">Education</p>
+              <p>PUP Calauan Campus, Laguna</p>
+
+              <p className="font-semibold text-white">Status</p>
+              <p>Open to Opportunities ✅</p>
+
+              <p className="font-semibold text-white">GitHub</p>
+              <a
+                href="https://github.com/parzinal"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex w-fit items-center gap-1 text-sky-200 transition hover:text-sky-100"
+              >
+                github.com/parzinal
+                <ArrowUpRight className="h-4 w-4" />
+              </a>
             </div>
-          </div>
-
-          <div className="rounded-[2rem] border border-slate-200/20 bg-slate-900/45 p-7 backdrop-blur md:p-8">
-            <h3 className="font-[family-name:var(--font-syne)] text-3xl text-white">Who I Am</h3>
-            <p className="mt-4 text-base leading-relaxed text-slate-200/85">
-              I am a passionate student aspiring to become a skilled web developer. Currently learning and building projects to improve my skills in web technologies. I am dedicated to writing clean, efficient code and constantly striving to learn new technologies and best practices in web development.
-            </p>
-
-            <div className="mt-6 grid gap-2.5 rounded-2xl border border-slate-200/10 bg-slate-950/35 p-4 text-sm text-slate-200/90 sm:grid-cols-2">
-              <p><span className="font-semibold text-white">Age:</span> 24</p>
-              <p><span className="font-semibold text-white">Phone:</span> +63 999 968 5762</p>
-              <p><span className="font-semibold text-white">Email:</span> yamamotokim4@gmail.com</p>
-              <p><span className="font-semibold text-white">Place:</span> Calauan, Laguna, Philippines</p>
-              <p className="sm:col-span-2"><span className="font-semibold text-white">Education:</span> PUP Calauan Campus, Laguna</p>
-            </div>
-
-            <a
-              href="mailto:yamamotokim4@gmail.com"
-              className="mt-6 inline-flex items-center gap-2 rounded-full border border-sky-300/60 px-5 py-2.5 text-sm font-semibold text-sky-200 transition hover:border-sky-200 hover:bg-sky-300/10 hover:text-white"
-            >
-              Contact Me
-              <ArrowUpRight className="h-4 w-4" />
-            </a>
           </div>
         </div>
       </section>
@@ -442,6 +455,34 @@ export function PortfolioPage() {
           </div>
         </motion.article>
         )}
+      </section>
+
+      <section id="technology" className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">
+        <h2 className="font-[family-name:var(--font-syne)] text-3xl text-white md:text-4xl">Technology and Tools Using</h2>
+        <div className="mt-7 rounded-3xl border border-slate-200/15 bg-slate-900/52 p-6 md:p-7">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {[
+              { name: "PHP", Icon: FileCode2 },
+              { name: "Laravel", Icon: Workflow },
+              { name: "JavaScript", Icon: Braces },
+              { name: "React", Icon: Atom },
+              { name: "MySQL", Icon: Database },
+              { name: "GitHub", Icon: Github },
+              { name: "Tailwind", Icon: Wind },
+              { name: "HTML/CSS", Icon: Globe }
+            ].map(({ name, Icon }) => (
+              <div
+                key={name}
+                className="rounded-2xl border border-slate-200/15 bg-slate-950/55 p-4 transition hover:border-sky-300/45 hover:bg-slate-900/70"
+              >
+                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-slate-800/80 text-sky-200">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <p className="text-sm font-semibold text-slate-100">{name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       <section id="services" className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">
