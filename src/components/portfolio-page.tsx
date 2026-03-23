@@ -332,7 +332,7 @@ export function PortfolioPage() {
                 <BadgeCheck className="h-4 w-4 text-sky-200" />
                 Status
               </p>
-              <p>Open to Opportunities ✅</p>
+              <p>Open to Opportunities</p>
 
               <p className="inline-flex items-center gap-2 font-semibold text-white">
                 <Github className="h-4 w-4 text-sky-200" />
