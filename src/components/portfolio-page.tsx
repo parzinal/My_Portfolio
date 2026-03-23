@@ -28,16 +28,29 @@ export function PortfolioPage() {
   const systemFilters = useMemo(
     () => [
       "All Systems",
-      "POS (Point of Sale)",
-      "Inventory Management System",
-      "Payroll System",
-      "HR Management System",
-      "Budget Tracker",
-      "Service Management System",
-      "Collection System",
-      "Game System",
+      "Business System",
+      "Academic System",
+      "Service Management",
+      "Collection / Game",
       "Web Application"
     ],
+    []
+  );
+
+  const systemFilterMap = useMemo<Record<string, string[]>>(
+    () => ({
+      "Business System": [
+        "POS (Point of Sale)",
+        "Payroll System",
+        "HR Management System",
+        "Inventory Management System",
+        "Service Management System"
+      ],
+      "Academic System": ["Enrollment System", "Library System", "Grade System"],
+      "Service Management": ["Service Management System"],
+      "Collection / Game": ["Collection System", "Game System"],
+      "Web Application": ["Web Application"]
+    }),
     []
   );
 
@@ -46,8 +59,12 @@ export function PortfolioPage() {
       return projects;
     }
 
-    return projects.filter((project) => project.systemTypes.includes(selectedSystemFilter));
-  }, [selectedSystemFilter]);
+    const mappedTypes = systemFilterMap[selectedSystemFilter] ?? [selectedSystemFilter];
+
+    return projects.filter((project) =>
+      project.systemTypes.some((systemType) => mappedTypes.includes(systemType))
+    );
+  }, [selectedSystemFilter, systemFilterMap]);
 
   const activeProject = filteredProjects[activeProjectIndex];
 
