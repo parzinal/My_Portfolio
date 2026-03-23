@@ -15,7 +15,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100%;
-  background-color: #f7f2e8;
+  background-color: #f8fbff;
 }
 
 body {
@@ -28,5 +28,112 @@ a {
 }
 
 ::selection {
-  background: rgba(211, 100, 59, 0.24);
+  background: rgba(37, 99, 235, 0.28);
+}
+
+.hex-ambient {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 14% 16%, rgba(39, 102, 224, 0.16), transparent 34%),
+    radial-gradient(circle at 86% 78%, rgba(10, 35, 82, 0.18), transparent 36%),
+    linear-gradient(145deg, #ffffff 0%, #f5f9ff 48%, #e9f1ff 100%);
+  overflow: hidden;
+}
+
+.hex-ambient::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle, rgba(22, 91, 227, 0.38) 0 1px, transparent 1.8px),
+    radial-gradient(circle, rgba(8, 23, 48, 0.3) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 24% 36%, rgba(58, 126, 255, 0.2) 0, transparent 26%),
+    radial-gradient(circle at 74% 68%, rgba(6, 29, 72, 0.2) 0, transparent 30%);
+  background-size: 92px 92px, 156px 156px, auto, auto;
+  background-position: 0 0, 42px 30px, 0 0, 0 0;
+  opacity: 0.62;
+  transform-origin: 50% 50%;
+  animation: network-node-drift 28s linear infinite;
+  pointer-events: none;
+  z-index: -2;
+}
+
+.hex-ambient::after {
+  content: "";
+  position: absolute;
+  inset: -12% -10%;
+  background:
+    linear-gradient(rgba(8, 23, 48, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(8, 23, 48, 0.08) 1px, transparent 1px),
+    repeating-linear-gradient(120deg, rgba(37, 99, 235, 0.14) 0 1px, transparent 1px 76px),
+    repeating-linear-gradient(60deg, rgba(12, 43, 95, 0.1) 0 1px, transparent 1px 76px),
+    radial-gradient(circle at 14% 22%, rgba(255, 255, 255, 0.82), transparent 36%),
+    radial-gradient(circle at 82% 76%, rgba(6, 29, 72, 0.16), transparent 42%);
+  background-size: 72px 72px, 72px 72px, 250px 250px, 250px 250px, auto, auto;
+  background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+  animation: network-line-sweep 20s linear infinite, network-glow 8s ease-in-out infinite;
+  mix-blend-mode: multiply;
+  opacity: 0.58;
+  transform-origin: center;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes network-node-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-92px, -56px, 0);
+  }
+}
+
+@keyframes network-line-sweep {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-72px, -72px, 0);
+  }
+}
+
+@keyframes network-glow {
+  0%,
+  100% {
+    opacity: 0.42;
+  }
+  50% {
+    opacity: 0.72;
+  }
+}
+
+.particle-network-bg {
+  overflow: hidden;
+  background: linear-gradient(160deg, #050b18 0%, #0b1730 45%, #0e2244 100%);
+}
+
+.particle-network-bg__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.particle-network-bg__vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 22% 18%, rgba(80, 145, 255, 0.15) 0, transparent 36%),
+    radial-gradient(circle at 76% 74%, rgba(57, 120, 255, 0.12) 0, transparent 34%),
+    linear-gradient(180deg, rgba(6, 10, 26, 0.12) 0%, rgba(4, 8, 20, 0.44) 100%);
+  mix-blend-mode: screen;
+}
+
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 0.25s;
+  animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
 }

@@ -15,6 +15,7 @@
     "incremental": true,
     "plugins": [{ "name": "next" }],
     "paths": {
+      "@react-three/fiber": ["./node_modules/@react-three/fiber/dist/react-three-fiber.cjs.d.ts"],
       "@/*": ["./src/*"]
     }
   },

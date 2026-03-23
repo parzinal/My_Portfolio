@@ -9,11 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        paper: "#f7f2e8",
-        ink: "#101010",
-        clay: "#d3643b",
-        ember: "#f39d3c",
-        pine: "#21473f"
+        paper: "#f8fbff",
+        ink: "#0b1220",
+        clay: "#2563eb",
+        ember: "#60a5fa",
+        pine: "#1e3a8a"
       },
       boxShadow: {
         card: "0 18px 48px rgba(16,16,16,0.14)"
