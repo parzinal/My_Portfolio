@@ -3,13 +3,27 @@ import type { PortfolioProject, Service, Testimonial } from "@/lib/types";
 export const navItems = ["Work", "Services", "About", "Contact"];
 
 export const projects: PortfolioProject[] = [
+   {
+    title: "TB5 Payroll System",
+    category: "Business Payroll Management",
+    summary:
+      "TheBigFive Payroll: A web-based payroll and timekeeping system for managing employees, DTRs, positions, payroll runs, payslips, and reporting includes admin and staff portals, import/export tools, backups, and notification/email support.",
+    stack: ["PHP", "HTML, CSS, JavaScript", "MySQL"],
+    systemTypes: ["Payroll System", "HR Management System", "Web Application"],
+    images: [
+      "/images/projects/payroll1.jpg",
+      "/images/projects/payroll2.jpg",
+      "/images/projects/payroll3.jpg"
+    ],
+    link: "#"
+  },
   {
     title: "Kpokedex Project",
     category: "Pokemon Collection",
     summary:
       "KPokedex is a web-based Pokemon platform where trainers can register, log in with OTP security, explore the map, catch Pokemon, and build a personal collection. It also includes admin tools to manage users and update entries, delivering a nostalgic, game-inspired experience that combines fun, accessibility, and account safety for every player alike.",
     stack: ["PHP", "HTML, CSS, JavaScript", "MySQL"],
-    systemTypes: ["Collection System", "Inventory Management System", "Web Application"],
+    systemTypes: ["Collection System", "Web Application"],
     images: [
       "/images/projects/kpokedex1.jpg",
       "/images/projects/kpokedex2.jpg",
@@ -49,7 +63,7 @@ export const projects: PortfolioProject[] = [
     title: "CleanMoto",
     category: "Service Management System",
     summary:
-      "A role-based motorcycle service management app for bookings, scheduling, walk-ins, service tracking, notifications, account recovery, and team operations.",
+      "A role-based motorcycle helmet service management app for bookings, scheduling, walk-ins, service tracking, notifications, account recovery, and team operations.",
     stack: ["PHP", "HTML, CSS, JavaScript", "MySQL"],
     systemTypes: [
       "Service Management System",
@@ -61,9 +75,9 @@ export const projects: PortfolioProject[] = [
       "Web Application"
     ],
     images: [
-      "/images/projects/cleanmoto-1.svg",
-      "/images/projects/cleanmoto-2.svg",
-      "/images/projects/cleanmoto-3.svg"
+      "/images/projects/cleanmoto1.jpg",
+      "/images/projects/cleanmoto2.jpg",
+      "/images/projects/cleanmoto3.jpg"
     ],
     link: "#"
   }
