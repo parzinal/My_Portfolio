@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#0f172a" />
+  <rect x="78" y="86" width="1124" height="548" rx="26" fill="#0b1220" stroke="#3b82f6" stroke-width="4" />
+  <text x="120" y="185" fill="#f8fafc" font-family="Segoe UI, Arial" font-size="54" font-weight="700">Pogs Game Project</text>
+  <text x="120" y="245" fill="#60a5fa" font-family="Segoe UI, Arial" font-size="30">Digital Flipping Mechanics</text>
+</svg>

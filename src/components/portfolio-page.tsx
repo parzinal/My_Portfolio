@@ -1,8 +1,9 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Sparkles, CheckCircle2, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowUpRight, Sparkles, CheckCircle2, Github, Linkedin, Mail, ChevronLeft, ChevronRight } from "lucide-react";
 import { navItems, projects, services, testimonials } from "@/data/site";
 import { SceneCanvas } from "@/components/scene-canvas";
 import { BackgroundCanvas } from "@/components/background-canvas";
@@ -15,12 +16,39 @@ export function PortfolioPage() {
   const [typedRole, setTypedRole] = useState("");
   const [roleIndex, setRoleIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [activeProjectIndex, setActiveProjectIndex] = useState(0);
+  const [activeProjectImageIndex, setActiveProjectImageIndex] = useState(0);
 
   const year = useMemo(() => new Date().getFullYear(), []);
   const rotatingRoles = useMemo(
     () => ["Future Software Engineer", "Creative Problem Solver", "Always Learning, Always Building"],
     []
   );
+  const activeProject = projects[activeProjectIndex];
+
+  function showPreviousProject() {
+    setActiveProjectIndex((current) => (current - 1 + projects.length) % projects.length);
+    setActiveProjectImageIndex(0);
+  }
+
+  function showNextProject() {
+    setActiveProjectIndex((current) => (current + 1) % projects.length);
+    setActiveProjectImageIndex(0);
+  }
+
+  function showPreviousImage() {
+    setActiveProjectImageIndex((current) => {
+      const total = activeProject.images.length;
+      return (current - 1 + total) % total;
+    });
+  }
+
+  function showNextImage() {
+    setActiveProjectImageIndex((current) => {
+      const total = activeProject.images.length;
+      return (current + 1) % total;
+    });
+  }
 
   useEffect(() => {
     const activeRole = rotatingRoles[roleIndex % rotatingRoles.length];
@@ -179,36 +207,101 @@ export function PortfolioPage() {
       <section id="work" className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">
         <div className="mb-8 flex items-end justify-between gap-4">
           <h2 className="font-[family-name:var(--font-syne)] text-3xl text-white md:text-4xl">Selected Projects</h2>
-          <p className="text-sm uppercase tracking-[0.18em] text-slate-300/80">Craft + Velocity</p>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={showPreviousProject}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200/20 bg-slate-900/55 text-slate-100 transition hover:border-sky-300/55 hover:text-sky-300"
+              aria-label="Previous project"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={showNextProject}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200/20 bg-slate-900/55 text-slate-100 transition hover:border-sky-300/55 hover:text-sky-300"
+              aria-label="Next project"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {projects.map((project, index) => (
-            <motion.article
-              key={project.title}
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.35 }}
-              transition={{ delay: 0.08 * index, duration: 0.5 }}
-              className="group flex h-full flex-col rounded-3xl border border-slate-200/15 bg-slate-900/52 p-6 shadow-card backdrop-blur"
+        <motion.article
+          key={activeProject.title}
+          initial={{ opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+          className="grid gap-6 rounded-3xl border border-slate-200/15 bg-slate-900/52 p-5 shadow-card backdrop-blur md:grid-cols-[1.2fr_1fr] md:p-6"
+        >
+          <div className="relative overflow-hidden rounded-2xl border border-slate-200/10 bg-slate-950/55">
+            <div className="relative h-[240px] w-full md:h-[330px]">
+              <Image
+                src={activeProject.images[activeProjectImageIndex]}
+                alt={`${activeProject.title} screenshot ${activeProjectImageIndex + 1}`}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 60vw"
+              />
+            </div>
+
+            <button
+              type="button"
+              onClick={showPreviousImage}
+              className="absolute left-3 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200/25 bg-slate-900/70 text-slate-100 transition hover:border-sky-300/65 hover:text-sky-300"
+              aria-label="Previous project image"
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-300">{project.category}</p>
-              <h3 className="mt-3 font-[family-name:var(--font-syne)] text-2xl text-white">{project.title}</h3>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-200/80">{project.summary}</p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {project.stack.map((tag) => (
-                  <span key={tag} className="rounded-full border border-slate-200/15 bg-slate-950/55 px-3 py-1 text-xs font-semibold tracking-wide text-slate-100/90">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <a href={project.link} className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-clay">
-                Case Study
-                <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-1 group-hover:-translate-y-1" />
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+
+            <button
+              type="button"
+              onClick={showNextImage}
+              className="absolute right-3 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200/25 bg-slate-900/70 text-slate-100 transition hover:border-sky-300/65 hover:text-sky-300"
+              aria-label="Next project image"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+
+            <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full bg-slate-900/65 px-3 py-1">
+              {activeProject.images.map((image, index) => (
+                <button
+                  key={image}
+                  type="button"
+                  onClick={() => setActiveProjectImageIndex(index)}
+                  className={`h-2.5 w-2.5 rounded-full transition ${
+                    index === activeProjectImageIndex ? "bg-sky-300" : "bg-slate-300/45 hover:bg-slate-200/75"
+                  }`}
+                  aria-label={`Show image ${index + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="flex h-full flex-col">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-300">{activeProject.category}</p>
+            <h3 className="mt-3 font-[family-name:var(--font-syne)] text-3xl text-white">{activeProject.title}</h3>
+            <p className="mt-4 text-sm leading-relaxed text-slate-200/82">{activeProject.summary}</p>
+
+            <div className="mt-5 flex flex-wrap gap-2">
+              {activeProject.stack.map((tag) => (
+                <span key={tag} className="rounded-full border border-slate-200/15 bg-slate-950/55 px-3 py-1 text-xs font-semibold tracking-wide text-slate-100/90">
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-6 flex items-center justify-between gap-4">
+              <p className="text-xs uppercase tracking-[0.16em] text-slate-300/70">
+                Project {activeProjectIndex + 1} of {projects.length}
+              </p>
+              <a href={activeProject.link} className="inline-flex items-center gap-1 text-sm font-semibold text-clay">
+                Open Project
+                <ArrowUpRight className="h-4 w-4" />
               </a>
-            </motion.article>
-          ))}
-        </div>
+            </div>
+          </div>
+        </motion.article>
       </section>
 
       <section id="services" className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">

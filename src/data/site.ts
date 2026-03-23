@@ -4,27 +4,55 @@ export const navItems = ["Work", "Services", "About", "Contact"];
 
 export const projects: PortfolioProject[] = [
   {
-    title: "Atlas Commerce",
-    category: "Ecommerce Platform",
+    title: "Kpokedex Project",
+    category: "Pokemon Collection",
     summary:
-      "Built a conversion-focused storefront with personalized recommendations and fast edge rendering.",
-    stack: ["Next.js", "Supabase", "Stripe", "Tailwind"],
+      "A Pokemon collection system that lets users track, organize, and explore their captured Pokemon.",
+    stack: ["PHP", "HTML, CSS, JavaScript", "MySQL"],
+    images: [
+      "/images/projects/kpokedex-1.svg",
+      "/images/projects/kpokedex-2.svg",
+      "/images/projects/kpokedex-3.svg"
+    ],
     link: "#"
   },
   {
-    title: "Lumen Studio",
-    category: "Creative Agency",
+    title: "Sipa Game Project",
+    category: "Filipino Arcade Game",
     summary:
-      "Designed an immersive case study experience with playful transitions and dynamic filtering.",
-    stack: ["React Three Fiber", "Framer Motion", "Next.js"],
+      "A simple digital version of the traditional Filipino Sipa game, designed for fun and quick gameplay.",
+    stack: ["PHP", "HTML, CSS, JavaScript", "MySQL"],
+    images: [
+      "/images/projects/sipa-1.svg",
+      "/images/projects/sipa-2.svg",
+      "/images/projects/sipa-3.svg"
+    ],
     link: "#"
   },
   {
-    title: "Pulse Board",
-    category: "SaaS Dashboard",
+    title: "Pogs Game Project",
+    category: "Nostalgic Mini Game",
     summary:
-      "Shipped a high-density analytics workspace with custom data visualizations and role-based access.",
-    stack: ["TypeScript", "Supabase", "PostgreSQL"],
+      "A simple Pogs-inspired game that brings nostalgic flipping mechanics into an interactive digital format.",
+    stack: ["PHP", "HTML, CSS, JavaScript", "MySQL"],
+    images: [
+      "/images/projects/pogs-1.svg",
+      "/images/projects/pogs-2.svg",
+      "/images/projects/pogs-3.svg"
+    ],
+    link: "#"
+  },
+  {
+    title: "CleanMoto",
+    category: "Service Management System",
+    summary:
+      "A role-based motorcycle service management app for bookings, scheduling, walk-ins, service tracking, notifications, account recovery, and team operations.",
+    stack: ["PHP", "HTML, CSS, JavaScript", "MySQL"],
+    images: [
+      "/images/projects/cleanmoto-1.svg",
+      "/images/projects/cleanmoto-2.svg",
+      "/images/projects/cleanmoto-3.svg"
+    ],
     link: "#"
   }
 ];

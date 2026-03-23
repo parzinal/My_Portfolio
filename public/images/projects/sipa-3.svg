@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#111827" />
+  <rect x="80" y="88" width="1120" height="544" rx="24" fill="#0b1220" stroke="#93c5fd" stroke-width="4" />
+  <text x="120" y="190" fill="#f8fafc" font-family="Segoe UI, Arial" font-size="50" font-weight="700">Sipa Leaderboard</text>
+  <text x="120" y="252" fill="#93c5fd" font-family="Segoe UI, Arial" font-size="30">Top Scores and Player Progress</text>
+</svg>

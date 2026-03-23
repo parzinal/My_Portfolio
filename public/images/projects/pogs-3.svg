@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#0f172a" />
+  <rect x="82" y="92" width="1116" height="536" rx="24" fill="#0b1220" stroke="#93c5fd" stroke-width="4" />
+  <text x="120" y="190" fill="#f1f5f9" font-family="Segoe UI, Arial" font-size="50" font-weight="700">Pogs Result View</text>
+  <text x="120" y="252" fill="#60a5fa" font-family="Segoe UI, Arial" font-size="30">Rounds, Wins, and Statistics</text>
+</svg>

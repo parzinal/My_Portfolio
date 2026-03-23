@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#101c3f" />
+  <circle cx="220" cy="120" r="140" fill="#1e3a8a" opacity="0.45" />
+  <rect x="72" y="84" width="1136" height="552" rx="26" fill="#0b1220" stroke="#93c5fd" stroke-width="4" />
+  <text x="120" y="190" fill="#e5e7eb" font-family="Segoe UI, Arial" font-size="50" font-weight="700">Kpokedex Analytics</text>
+  <text x="120" y="250" fill="#93c5fd" font-family="Segoe UI, Arial" font-size="30">Collection Insights and Stats</text>
+</svg>
