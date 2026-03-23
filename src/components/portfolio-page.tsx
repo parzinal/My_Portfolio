@@ -277,29 +277,29 @@ export function PortfolioPage() {
       <section id="about" className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">
         <div className="mb-8 text-center">
           <h2 className="font-[family-name:var(--font-syne)] text-3xl text-white md:text-4xl">About Me</h2>
-          <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-clay" />
+          <div className="mx-auto mt-4 h-px w-20 bg-sky-300/70" />
         </div>
 
-        <div className="grid gap-6 md:grid-cols-[1fr_1.2fr] md:items-center">
-          <div className="overflow-hidden rounded-3xl border border-clay/80 bg-slate-950/55 p-2 shadow-card">
-            <div className="relative h-[320px] w-full overflow-hidden rounded-2xl md:h-[420px]">
+        <div className="grid gap-6 md:grid-cols-[1fr_1.15fr] md:items-center">
+          <div className="rounded-[2rem] border border-slate-200/20 bg-slate-900/45 p-4 backdrop-blur">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-slate-200/15 bg-slate-100/95">
               <Image
-                src="/images/cv-kim-yamamoto.png"
+                src="/images/kim.jpg"
                 alt="Kim Yamamoto portrait"
                 fill
-                className="object-cover"
+                className="object-contain p-2"
                 sizes="(max-width: 768px) 100vw, 45vw"
               />
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-200/15 bg-slate-900/52 p-7 md:p-8">
+          <div className="rounded-[2rem] border border-slate-200/20 bg-slate-900/45 p-7 backdrop-blur md:p-8">
             <h3 className="font-[family-name:var(--font-syne)] text-3xl text-white">Who I Am</h3>
             <p className="mt-4 text-base leading-relaxed text-slate-200/85">
               I am a passionate student aspiring to become a skilled web developer. Currently learning and building projects to improve my skills in web technologies. I am dedicated to writing clean, efficient code and constantly striving to learn new technologies and best practices in web development.
             </p>
 
-            <div className="mt-6 grid gap-3 text-sm text-slate-200/90 sm:grid-cols-2">
+            <div className="mt-6 grid gap-2.5 rounded-2xl border border-slate-200/10 bg-slate-950/35 p-4 text-sm text-slate-200/90 sm:grid-cols-2">
               <p><span className="font-semibold text-white">Age:</span> 24</p>
               <p><span className="font-semibold text-white">Phone:</span> +63 999 968 5762</p>
               <p><span className="font-semibold text-white">Email:</span> yamamotokim4@gmail.com</p>
@@ -309,7 +309,7 @@ export function PortfolioPage() {
 
             <a
               href="mailto:yamamotokim4@gmail.com"
-              className="mt-7 inline-flex items-center gap-2 rounded-xl border border-clay/90 px-5 py-3 text-sm font-semibold text-clay transition hover:bg-clay hover:text-slate-950"
+              className="mt-6 inline-flex items-center gap-2 rounded-full border border-sky-300/60 px-5 py-2.5 text-sm font-semibold text-sky-200 transition hover:border-sky-200 hover:bg-sky-300/10 hover:text-white"
             >
               Contact Me
               <ArrowUpRight className="h-4 w-4" />

@@ -13,8 +13,13 @@ const syne = Syne({
 });
 
 export const metadata: Metadata = {
-  title: "Modern Portfolio",
-  description: "A 3D interactive portfolio built with Next.js, Supabase, and Tailwind CSS."
+  title: "Kim Yamamoto - Future Software Engineer",
+  description: "Portfolio of Kim Yamamoto, Future Software Engineer.",
+  icons: {
+    icon: "/images/KY_LOGO.png",
+    shortcut: "/images/KY_LOGO.png",
+    apple: "/images/KY_LOGO.png"
+  }
 };
 
 export default function RootLayout({
