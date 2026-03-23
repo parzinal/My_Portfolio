@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${spaceGrotesk.variable} ${syne.variable} antialiased`}>
+      <body suppressHydrationWarning className={`${spaceGrotesk.variable} ${syne.variable} antialiased`}>
         {children}
       </body>
     </html>

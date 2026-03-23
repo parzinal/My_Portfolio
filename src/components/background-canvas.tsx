@@ -7,6 +7,8 @@ type Particle = {
   y: number;
   vx: number;
   vy: number;
+  driftVx: number;
+  driftVy: number;
   radius: number;
 };
 
@@ -32,8 +34,15 @@ export function BackgroundCanvas() {
     let width = window.innerWidth;
     let height = window.innerHeight;
     let particles: Particle[] = [];
+    const mouse = {
+      x: 0,
+      y: 0,
+      active: false
+    };
 
     const maxDistance = 150;
+    const repelRadius = 140;
+    const repelStrength = 0.22;
 
     function createParticles() {
       const targetCount = Math.max(45, Math.min(120, Math.floor((width * height) / 19000)));
@@ -42,6 +51,8 @@ export function BackgroundCanvas() {
         y: Math.random() * height,
         vx: (Math.random() - 0.5) * 0.35,
         vy: (Math.random() - 0.5) * 0.35,
+        driftVx: (Math.random() - 0.5) * 0.35,
+        driftVy: (Math.random() - 0.5) * 0.35,
         radius: 1.4 + Math.random() * 1.8
       }));
     }
@@ -95,6 +106,30 @@ export function BackgroundCanvas() {
 
     function drawParticles() {
       for (const particle of particles) {
+        // Pull each particle back toward its base drift so motion never stalls.
+        particle.vx += (particle.driftVx - particle.vx) * 0.02;
+        particle.vy += (particle.driftVy - particle.vy) * 0.02;
+
+        if (mouse.active) {
+          const dx = particle.x - mouse.x;
+          const dy = particle.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist > 0.001 && dist < repelRadius) {
+            const force = (1 - dist / repelRadius) * repelStrength;
+            particle.vx += (dx / dist) * force;
+            particle.vy += (dy / dist) * force;
+          }
+        }
+
+        // Keep velocity stable so particles stay smooth after interaction.
+        particle.vx *= 0.992;
+        particle.vy *= 0.992;
+
+        const maxSpeed = 1.2;
+        particle.vx = Math.max(-maxSpeed, Math.min(maxSpeed, particle.vx));
+        particle.vy = Math.max(-maxSpeed, Math.min(maxSpeed, particle.vy));
+
         particle.x += particle.vx;
         particle.y += particle.vy;
 
@@ -124,12 +159,26 @@ export function BackgroundCanvas() {
       animationId = window.requestAnimationFrame(render);
     }
 
+    function handleMouseMove(event: MouseEvent) {
+      mouse.x = event.clientX;
+      mouse.y = event.clientY;
+      mouse.active = true;
+    }
+
+    function handleMouseLeave() {
+      mouse.active = false;
+    }
+
     resize();
     render();
     window.addEventListener("resize", resize);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseout", handleMouseLeave);
 
     return () => {
       window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseout", handleMouseLeave);
       window.cancelAnimationFrame(animationId);
     };
   }, []);

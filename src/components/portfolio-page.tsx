@@ -12,20 +12,27 @@ import {
   Mail,
   ChevronLeft,
   ChevronRight,
-  FileCode2,
-  Workflow,
-  Braces,
-  Atom,
-  Cpu,
-  Database,
-  Wind,
-  Globe,
-  Server,
-  Code2,
   MapPin,
   GraduationCap,
   BadgeCheck
 } from "lucide-react";
+import {
+  SiPhp,
+  SiPython,
+  SiLaravel,
+  SiDjango,
+  SiMysql,
+  SiHtml5,
+  SiCss,
+  SiJavascript,
+  SiTypescript,
+  SiReact,
+  SiNextdotjs,
+  SiTailwindcss,
+  SiGithub,
+  SiVscodium,
+  SiLaragon
+} from "react-icons/si";
 import { navItems, projects, services } from "@/data/site";
 import { SceneCanvas } from "@/components/scene-canvas";
 import { BackgroundCanvas } from "@/components/background-canvas";
@@ -487,19 +494,19 @@ export function PortfolioPage() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-slate-300/80">Backend</p>
             <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-5">
               {[
-                { name: "PHP", type: "Language", Icon: FileCode2 },
-                { name: "Python", type: "Language", Icon: Cpu },
-                { name: "Laravel", type: "Framework", Icon: Workflow },
-                { name: "Django", type: "Framework", Icon: Server },
-                { name: "MySQL", type: "Database", Icon: Database }
-              ].map(({ name, type, Icon }) => (
+                { name: "PHP", type: "Language", Icon: SiPhp, iconClass: "text-[#777BB4]" },
+                { name: "Python", type: "Language", Icon: SiPython, iconClass: "text-[#3776AB]" },
+                { name: "Laravel", type: "Framework", Icon: SiLaravel, iconClass: "text-[#FF2D20]" },
+                { name: "Django", type: "Framework", Icon: SiDjango, iconClass: "text-[#44B78B]" },
+                { name: "MySQL", type: "Database", Icon: SiMysql, iconClass: "text-[#4479A1]" }
+              ].map(({ name, type, Icon, iconClass }) => (
                 <div
                   key={name}
                   className="rounded-xl border border-slate-200/15 bg-slate-950/55 px-4 py-3 transition hover:border-sky-300/45 hover:bg-slate-900/70 hover:shadow-[0_0_22px_rgba(56,189,248,0.2)]"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/85 text-sky-200">
-                      <Icon className="h-4 w-4" />
+                    <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/85">
+                      <Icon className={`h-4 w-4 ${iconClass}`} />
                     </div>
                     <div>
                       <p className="text-base font-semibold leading-tight text-white">{name}</p>
@@ -515,21 +522,21 @@ export function PortfolioPage() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-slate-300/80">Frontend</p>
             <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-7">
               {[
-                { name: "HTML", type: "Markup", Icon: Globe },
-                { name: "CSS", type: "Styling", Icon: FileCode2 },
-                { name: "JavaScript", type: "Language", Icon: Braces },
-                { name: "TypeScript", type: "Language", Icon: Code2 },
-                { name: "React", type: "Library", Icon: Atom },
-                { name: "Next.js", type: "Framework", Icon: Globe },
-                { name: "Tailwind CSS", type: "CSS Framework", Icon: Wind }
-              ].map(({ name, type, Icon }) => (
+                { name: "HTML", type: "Markup", Icon: SiHtml5, iconClass: "text-[#E34F26]" },
+                { name: "CSS", type: "Styling", Icon: SiCss, iconClass: "text-[#1572B6]" },
+                { name: "JavaScript", type: "Language", Icon: SiJavascript, iconClass: "text-[#F7DF1E]" },
+                { name: "TypeScript", type: "Language", Icon: SiTypescript, iconClass: "text-[#3178C6]" },
+                { name: "React", type: "Library", Icon: SiReact, iconClass: "text-[#61DAFB]" },
+                { name: "Next.js", type: "Framework", Icon: SiNextdotjs, iconClass: "text-white" },
+                { name: "Tailwind CSS", type: "CSS Framework", Icon: SiTailwindcss, iconClass: "text-[#06B6D4]" }
+              ].map(({ name, type, Icon, iconClass }) => (
                 <div
                   key={name}
                   className="rounded-xl border border-slate-200/15 bg-slate-950/55 px-4 py-3 transition hover:border-sky-300/45 hover:bg-slate-900/70 hover:shadow-[0_0_22px_rgba(56,189,248,0.2)]"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/85 text-sky-200">
-                      <Icon className="h-4 w-4" />
+                    <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/85">
+                      <Icon className={`h-4 w-4 ${iconClass}`} />
                     </div>
                     <div>
                       <p className="text-base font-semibold leading-tight text-white">{name}</p>
@@ -545,17 +552,17 @@ export function PortfolioPage() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-slate-300/80">Tools &amp; Environment</p>
             <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
               {[
-                { name: "GitHub", type: "Version Control", Icon: Github },
-                { name: "VS Code", type: "Editor", Icon: Code2 },
-                { name: "Laragon", type: "Local Server", Icon: Server }
-              ].map(({ name, type, Icon }) => (
+                { name: "GitHub", type: "Version Control", Icon: SiGithub, iconClass: "text-white" },
+                { name: "VS Code", type: "Editor", Icon: SiVscodium, iconClass: "text-[#24BFA5]" },
+                { name: "Laragon", type: "Local Server", Icon: SiLaragon, iconClass: "text-[#0E83CD]" }
+              ].map(({ name, type, Icon, iconClass }) => (
                 <div
                   key={name}
                   className="rounded-xl border border-slate-200/15 bg-slate-950/55 px-4 py-3 transition hover:border-sky-300/45 hover:bg-slate-900/70 hover:shadow-[0_0_22px_rgba(56,189,248,0.2)]"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/85 text-sky-200">
-                      <Icon className="h-4 w-4" />
+                    <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/85">
+                      <Icon className={`h-4 w-4 ${iconClass}`} />
                     </div>
                     <div>
                       <p className="text-base font-semibold leading-tight text-white">{name}</p>
