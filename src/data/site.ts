@@ -7,13 +7,13 @@ export const projects: PortfolioProject[] = [
     title: "Kpokedex Project",
     category: "Pokemon Collection",
     summary:
-      "A Pokemon collection system that lets users track, organize, and explore their captured Pokemon.",
+      "KPokedex is a web-based Pokemon platform where trainers can register, log in with OTP security, explore the map, catch Pokemon, and build a personal collection. It also includes admin tools to manage users and update entries, delivering a nostalgic, game-inspired experience that combines fun, accessibility, and account safety for every player alike.",
     stack: ["PHP", "HTML, CSS, JavaScript", "MySQL"],
     systemTypes: ["Collection System", "Inventory Management System", "Web Application"],
     images: [
-      "/images/projects/kpokedex-1.svg",
-      "/images/projects/kpokedex-2.svg",
-      "/images/projects/kpokedex-3.svg"
+      "/images/projects/kpokedex1.jpg",
+      "/images/projects/kpokedex2.jpg",
+      "/images/projects/kpokedex3.jpg"
     ],
     link: "#"
   },
