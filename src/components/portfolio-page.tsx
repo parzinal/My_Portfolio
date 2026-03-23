@@ -16,6 +16,7 @@ export function PortfolioPage() {
   const [typedRole, setTypedRole] = useState("");
   const [roleIndex, setRoleIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [selectedSystemFilter, setSelectedSystemFilter] = useState("All Systems");
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [activeProjectImageIndex, setActiveProjectImageIndex] = useState(0);
 
@@ -24,19 +25,67 @@ export function PortfolioPage() {
     () => ["Future Software Engineer", "Creative Problem Solver", "Always Learning, Always Building"],
     []
   );
-  const activeProject = projects[activeProjectIndex];
+  const systemFilters = useMemo(
+    () => [
+      "All Systems",
+      "POS (Point of Sale)",
+      "Inventory Management System",
+      "Payroll System",
+      "HR Management System",
+      "Budget Tracker",
+      "Service Management System",
+      "Collection System",
+      "Game System",
+      "Web Application"
+    ],
+    []
+  );
+
+  const filteredProjects = useMemo(() => {
+    if (selectedSystemFilter === "All Systems") {
+      return projects;
+    }
+
+    return projects.filter((project) => project.systemTypes.includes(selectedSystemFilter));
+  }, [selectedSystemFilter]);
+
+  const activeProject = filteredProjects[activeProjectIndex];
+
+  useEffect(() => {
+    setActiveProjectIndex(0);
+    setActiveProjectImageIndex(0);
+  }, [selectedSystemFilter]);
+
+  useEffect(() => {
+    if (activeProjectIndex >= filteredProjects.length) {
+      setActiveProjectIndex(0);
+      setActiveProjectImageIndex(0);
+    }
+  }, [activeProjectIndex, filteredProjects.length]);
 
   function showPreviousProject() {
-    setActiveProjectIndex((current) => (current - 1 + projects.length) % projects.length);
+    if (filteredProjects.length <= 1) {
+      return;
+    }
+
+    setActiveProjectIndex((current) => (current - 1 + filteredProjects.length) % filteredProjects.length);
     setActiveProjectImageIndex(0);
   }
 
   function showNextProject() {
-    setActiveProjectIndex((current) => (current + 1) % projects.length);
+    if (filteredProjects.length <= 1) {
+      return;
+    }
+
+    setActiveProjectIndex((current) => (current + 1) % filteredProjects.length);
     setActiveProjectImageIndex(0);
   }
 
   function showPreviousImage() {
+    if (!activeProject || activeProject.images.length <= 1) {
+      return;
+    }
+
     setActiveProjectImageIndex((current) => {
       const total = activeProject.images.length;
       return (current - 1 + total) % total;
@@ -44,6 +93,10 @@ export function PortfolioPage() {
   }
 
   function showNextImage() {
+    if (!activeProject || activeProject.images.length <= 1) {
+      return;
+    }
+
     setActiveProjectImageIndex((current) => {
       const total = activeProject.images.length;
       return (current + 1) % total;
@@ -213,6 +266,7 @@ export function PortfolioPage() {
               onClick={showPreviousProject}
               className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200/20 bg-slate-900/55 text-slate-100 transition hover:border-sky-300/55 hover:text-sky-300"
               aria-label="Previous project"
+              disabled={filteredProjects.length <= 1}
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
@@ -221,11 +275,35 @@ export function PortfolioPage() {
               onClick={showNextProject}
               className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200/20 bg-slate-900/55 text-slate-100 transition hover:border-sky-300/55 hover:text-sky-300"
               aria-label="Next project"
+              disabled={filteredProjects.length <= 1}
             >
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>
         </div>
+
+        <div className="mb-6 flex flex-wrap gap-2">
+          {systemFilters.map((filter) => (
+            <button
+              key={filter}
+              type="button"
+              onClick={() => setSelectedSystemFilter(filter)}
+              className={`rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.1em] transition ${
+                selectedSystemFilter === filter
+                  ? "border-sky-300/70 bg-sky-300/25 text-white"
+                  : "border-slate-200/20 bg-slate-900/45 text-slate-200 hover:border-sky-300/45"
+              }`}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+
+        {filteredProjects.length === 0 ? (
+          <div className="rounded-3xl border border-slate-200/15 bg-slate-900/52 p-6 text-slate-200/85">
+            No projects found for this filter yet.
+          </div>
+        ) : (
 
         <motion.article
           key={activeProject.title}
@@ -293,7 +371,7 @@ export function PortfolioPage() {
 
             <div className="mt-6 flex items-center justify-between gap-4">
               <p className="text-xs uppercase tracking-[0.16em] text-slate-300/70">
-                Project {activeProjectIndex + 1} of {projects.length}
+                Project {activeProjectIndex + 1} of {filteredProjects.length}
               </p>
               <a href={activeProject.link} className="inline-flex items-center gap-1 text-sm font-semibold text-clay">
                 Open Project
@@ -302,6 +380,7 @@ export function PortfolioPage() {
             </div>
           </div>
         </motion.article>
+        )}
       </section>
 
       <section id="services" className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">

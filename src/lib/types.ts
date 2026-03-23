@@ -3,6 +3,7 @@ export type PortfolioProject = {
   category: string;
   summary: string;
   stack: string[];
+  systemTypes: string[];
   images: string[];
   link: string;
 };
