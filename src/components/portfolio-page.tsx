@@ -66,7 +66,7 @@ export function PortfolioPage() {
     {
       id: Date.now(),
       sender: "bot",
-      text: "Hi, I am KimDev Assistant. Ask me about Kim, projects, skills, services, or system types in this portfolio."
+      text: "Hi, I am KimDev K'Ai Assistant. Ask me about Kim, projects, skills, services, or system types in this portfolio."
     }
   ]);
 
@@ -113,7 +113,7 @@ export function PortfolioPage() {
     () => [
       "Who is Kim?",
       "What systems do you have?",
-      "Suggest system for clinic",
+      "What can you build for clients?",
       "What services do you offer?"
     ],
     []
@@ -264,6 +264,17 @@ export function PortfolioPage() {
     const portfolioScopeKeywords = [
       "kim",
       "portfolio",
+      "client",
+      "clients",
+      "hire",
+      "hiring",
+      "freelance",
+      "website",
+      "web site",
+      "web development",
+      "custom",
+      "customize",
+      "business",
       "project",
       "projects",
       "system",
@@ -293,6 +304,32 @@ export function PortfolioPage() {
 
     if (compactPrompt.includes("help") || compactPrompt.includes("what can you do")) {
       return "I can answer portfolio-only questions about Kim, project summaries, system types, available filters, skills, services, and contact details.";
+    }
+
+    if (
+      compactPrompt.includes("accept client") ||
+      compactPrompt.includes("accept clients") ||
+      compactPrompt.includes("accepting clients") ||
+      compactPrompt.includes("hire") ||
+      compactPrompt.includes("hiring") ||
+      compactPrompt.includes("freelance") ||
+      compactPrompt.includes("website for") ||
+      compactPrompt.includes("making a website") ||
+      compactPrompt.includes("make a website") ||
+      compactPrompt.includes("build a website")
+    ) {
+      return "Yes. Kim accepts client projects for websites and web-based systems. You can request web development, backend development, and system development based on your requirements. You can reach out at yamamotokim4@gmail.com.";
+    }
+
+    if (
+      compactPrompt.includes("what can you build") ||
+      compactPrompt.includes("what system do you offer") ||
+      compactPrompt.includes("customize system") ||
+      compactPrompt.includes("custom system") ||
+      compactPrompt.includes("what can he do") ||
+      compactPrompt.includes("what do you offer")
+    ) {
+      return "Kim can build practical web-based systems such as management systems, tracking systems, service workflows, and game-inspired interactive projects. Typical examples in this portfolio include CABMS, payroll management, CleanMoto service operations, and collection/game projects.";
     }
 
     const systemAliasMap: Array<{ aliases: string[]; systemType: string }> = [
@@ -398,6 +435,10 @@ export function PortfolioPage() {
       return `Kim offers: ${services.map((service) => service.title).join(", ")}.`;
     }
 
+    if (compactPrompt.includes("website") || compactPrompt.includes("web development")) {
+      return "Yes. Kim can build clean, responsive websites and web systems for clients using modern web technologies.";
+    }
+
     if (
       prompt.includes("who am i") ||
       prompt.includes("who is kim") ||
@@ -440,10 +481,10 @@ export function PortfolioPage() {
       return "I can only answer questions related to this portfolio and Kim's work. Please ask about profile, projects, systems, skills, services, or contact details.";
     }
 
-    return "I can help with portfolio topics. Try asking: who is Kim, what systems are available, did he build POS, suggest a system type, what services do you offer, or contact.";
+    return "I can help with portfolio topics. Try asking: who is Kim, what systems are available, what can you build for clients, what services do you offer, or contact.";
   }
 
-  function submitChatPrompt(input: string) {
+  async function submitChatPrompt(input: string) {
     const trimmedInput = input.trim();
     if (!trimmedInput) {
       return;
@@ -459,16 +500,18 @@ export function PortfolioPage() {
     setChatInput("");
     setIsBotTyping(true);
 
-    window.setTimeout(() => {
-      const botMessage: ChatMessage = {
-        id: Date.now() + 1,
-        sender: "bot",
-        text: getChatbotReply(trimmedInput)
-      };
+    const minTypingDuration = 650;
 
-      setChatMessages((current) => [...current, botMessage]);
-      setIsBotTyping(false);
-    }, 750);
+    await new Promise((resolve) => window.setTimeout(resolve, minTypingDuration));
+
+    const botMessage: ChatMessage = {
+      id: Date.now() + 1,
+      sender: "bot",
+      text: getChatbotReply(trimmedInput)
+    };
+
+    setChatMessages((current) => [...current, botMessage]);
+    setIsBotTyping(false);
   }
 
   function handleChatSubmit(event: FormEvent<HTMLFormElement>) {
@@ -912,7 +955,7 @@ export function PortfolioPage() {
               <div className="border-b border-slate-200/15 bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.28),transparent_56%),linear-gradient(130deg,rgba(10,20,45,0.95),rgba(7,28,65,0.92))] px-4 py-3.5">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p className="text-sm font-semibold text-white">KimDev Assistant</p>
+                    <p className="text-sm font-semibold text-white">KimDev K'Ai Assistant</p>
                     <p className="mt-0.5 text-xs text-cyan-100/85">Portfolio guide and system matcher</p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -951,12 +994,16 @@ export function PortfolioPage() {
 
                 {isBotTyping && (
                   <div className="max-w-[88%] rounded-2xl rounded-bl-md border border-slate-200/12 bg-slate-800/82 px-3 py-2 text-sm text-slate-100">
-                    <span className="inline-flex items-center gap-2">
+                    <p className="text-xs font-medium text-sky-200/90">K'Ai is thinking...</p>
+                    <span className="mt-1 inline-flex items-center gap-2">
                       <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-sky-300" />
                       <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-sky-300 [animation-delay:150ms]" />
                       <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-sky-300 [animation-delay:300ms]" />
-                      KimDev Assistant is typing...
+                      Preparing a portfolio-based reply
                     </span>
+                    <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-slate-700/70">
+                      <span className="block h-full w-1/2 animate-pulse rounded-full bg-gradient-to-r from-cyan-300 to-sky-400" />
+                    </div>
                   </div>
                 )}
               </div>

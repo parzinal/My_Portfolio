@@ -41,5 +41,6 @@ Open http://localhost:3000
 ## Notes
 
 - Contact form posts to `POST /api/contact` and stores data in `contact_messages`.
+- Chat widget currently runs in local rule-based mode (free, no external AI API required).
 - Update content arrays in `src/data/site.ts`.
 - Replace placeholder links in projects with live case studies.
