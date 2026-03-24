@@ -49,6 +49,11 @@ type ChatMessage = {
   text: string;
 };
 
+type ChatApiHistoryMessage = {
+  role: "user" | "assistant";
+  content: string;
+};
+
 export function PortfolioPage() {
   const [status, setStatus] = useState<ContactState>("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -257,238 +262,34 @@ export function PortfolioPage() {
     }
   }
 
-  function getChatbotReply(rawPrompt: string) {
-    const prompt = rawPrompt.toLowerCase().trim();
-    const compactPrompt = prompt.replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+  async function getLocalLlmReply(userPrompt: string, history: ChatApiHistoryMessage[]) {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userPrompt, history })
+    });
 
-    const portfolioScopeKeywords = [
-      "kim",
-      "portfolio",
-      "client",
-      "clients",
-      "hire",
-      "hiring",
-      "freelance",
-      "website",
-      "web site",
-      "web development",
-      "custom",
-      "customize",
-      "business",
-      "project",
-      "projects",
-      "system",
-      "systems",
-      "cabms",
-      "payroll",
-      "kpokedex",
-      "sipa",
-      "pogs",
-      "cleanmoto",
-      "service",
-      "services",
-      "skills",
-      "tech",
-      "technology",
-      "contact",
-      "email",
-      "who am i",
-      "who is kim"
-    ];
-
-    const hasPortfolioSignal = portfolioScopeKeywords.some((keyword) => compactPrompt.includes(keyword));
-
-    if (compactPrompt === "hi" || compactPrompt === "hello" || compactPrompt === "hey") {
-      return "Hi. You can ask about Kim, system types, projects, services, tech stack, or contact details from this portfolio.";
+    if (!response.ok) {
+      throw new Error("Local LLM request failed");
     }
 
-    if (compactPrompt.includes("help") || compactPrompt.includes("what can you do")) {
-      return "I can answer portfolio-only questions about Kim, project summaries, system types, available filters, skills, services, and contact details.";
+    const payload = (await response.json()) as { reply?: string; error?: string };
+
+    if (!payload.reply) {
+      throw new Error(payload.error || "No LLM reply available");
     }
 
-    if (
-      compactPrompt.includes("accept client") ||
-      compactPrompt.includes("accept clients") ||
-      compactPrompt.includes("accepting clients") ||
-      compactPrompt.includes("hire") ||
-      compactPrompt.includes("hiring") ||
-      compactPrompt.includes("freelance") ||
-      compactPrompt.includes("website for") ||
-      compactPrompt.includes("making a website") ||
-      compactPrompt.includes("make a website") ||
-      compactPrompt.includes("build a website")
-    ) {
-      return "Yes. Kim accepts client projects for websites and web-based systems. You can request web development, backend development, and system development based on your requirements. You can reach out at yamamotokim4@gmail.com.";
-    }
-
-    if (
-      compactPrompt.includes("what can you build") ||
-      compactPrompt.includes("what system do you offer") ||
-      compactPrompt.includes("customize system") ||
-      compactPrompt.includes("custom system") ||
-      compactPrompt.includes("what can he do") ||
-      compactPrompt.includes("what do you offer")
-    ) {
-      return "Kim can build practical web-based systems such as management systems, tracking systems, service workflows, and game-inspired interactive projects. Typical examples in this portfolio include CABMS, payroll management, CleanMoto service operations, and collection/game projects.";
-    }
-
-    const systemAliasMap: Array<{ aliases: string[]; systemType: string }> = [
-      { aliases: ["pos", "point of sale"], systemType: "POS (Point of Sale)" },
-      { aliases: ["payroll"], systemType: "Payroll System" },
-      { aliases: ["hr", "human resources"], systemType: "HR Management System" },
-      { aliases: ["inventory"], systemType: "Inventory Management System" },
-      { aliases: ["service"], systemType: "Service Management System" },
-      { aliases: ["collection"], systemType: "Collection System" },
-      { aliases: ["game"], systemType: "Game System" },
-      { aliases: ["web app", "web application", "website"], systemType: "Web Application" }
-    ];
-
-    const isSystemAvailabilityQuestion =
-      compactPrompt.includes("did he have") ||
-      compactPrompt.includes("does he have") ||
-      compactPrompt.includes("do you have") ||
-      compactPrompt.includes("meron") ||
-      compactPrompt.includes("mayroon") ||
-      compactPrompt.includes("have you built") ||
-      compactPrompt.includes("is there");
-
-    const matchedAliases = systemAliasMap.filter(({ aliases }) =>
-      aliases.some((alias) => compactPrompt.includes(alias))
-    );
-
-    if (isSystemAvailabilityQuestion && matchedAliases.length > 0) {
-      const responses = matchedAliases.map(({ systemType }) => {
-        const matchedProjects = projects
-          .filter((project) => project.systemTypes.includes(systemType))
-          .map((project) => project.title);
-
-        if (matchedProjects.length > 0) {
-          return `Yes, Kim has ${systemType} in ${matchedProjects.join(", ")}.`;
-        }
-
-        return `Not yet for ${systemType}, but Kim can build it based on your requirements.`;
-      });
-
-      return responses.join(" ");
-    }
-
-    if (compactPrompt.includes("recommend") || compactPrompt.includes("suggest me") || compactPrompt.includes("what system")) {
-      if (
-        compactPrompt.includes("clinic") ||
-        compactPrompt.includes("animal bite") ||
-        compactPrompt.includes("vaccination") ||
-        compactPrompt.includes("health")
-      ) {
-        return "For clinic and vaccination workflows, CABMS is the best fit in this portfolio. It handles incidents, patient records, schedules, and follow-ups.";
-      }
-
-      if (
-        compactPrompt.includes("salary") ||
-        compactPrompt.includes("dtr") ||
-        compactPrompt.includes("employee") ||
-        compactPrompt.includes("payroll")
-      ) {
-        return "For employee salary and timekeeping workflows, TB5 Payroll System is the best fit in this portfolio.";
-      }
-
-      if (compactPrompt.includes("helmet") || compactPrompt.includes("booking") || compactPrompt.includes("service")) {
-        return "For service booking and operations flow, CleanMoto is the recommended system in this portfolio.";
-      }
-
-      if (compactPrompt.includes("pokemon")) {
-        return "For collection-style and game-inspired features, Kpokedex is the recommended project in this portfolio.";
-      }
-
-      if (compactPrompt.includes("arcade") || compactPrompt.includes("mini game") || compactPrompt.includes("game")) {
-        return "For simple game systems, Sipa Game and Pogs Game are the relevant projects in this portfolio.";
-      }
-    }
-
-    if (compactPrompt.includes("system type") || compactPrompt.includes("type of system")) {
-      const projectMatch = projects.find((project) =>
-        compactPrompt.includes(project.title.toLowerCase()) ||
-        project.title
-          .toLowerCase()
-          .replace(/[^a-z0-9\s]/g, " ")
-          .split(" ")
-          .filter(Boolean)
-          .some((token) => token.length > 2 && compactPrompt.includes(token))
-      );
-
-      if (projectMatch) {
-        return `${projectMatch.title} has system types: ${projectMatch.systemTypes.join(", ")}.`;
-      }
-    }
-
-    if (
-      compactPrompt.includes("filter") ||
-      compactPrompt.includes("suggest") ||
-      compactPrompt.includes("what systems do you have") ||
-      compactPrompt.includes("available systems")
-    ) {
-      const filterList = systemFilters.join(", ");
-      const systemList = availableSystemTypes.join(", ");
-      return `You can filter projects using: ${filterList}. Available system types in this portfolio are: ${systemList}.`;
-    }
-
-    if (compactPrompt.includes("services") || compactPrompt.includes("what services")) {
-      return `Kim offers: ${services.map((service) => service.title).join(", ")}.`;
-    }
-
-    if (compactPrompt.includes("website") || compactPrompt.includes("web development")) {
-      return "Yes. Kim can build clean, responsive websites and web systems for clients using modern web technologies.";
-    }
-
-    if (
-      prompt.includes("who am i") ||
-      prompt.includes("who is kim") ||
-      prompt.includes("about kim") ||
-      prompt.includes("about you") ||
-      prompt.includes("introduce")
-    ) {
-      return "You are viewing Kim Yamamoto's portfolio: a Future Software Engineer from Calauan, Laguna, Philippines, focused on building clean and functional web applications using PHP, Laravel, and modern frontend tools.";
-    }
-
-    if (prompt.includes("skills") || prompt.includes("tech") || prompt.includes("technology")) {
-      return "Kim works with PHP, Laravel, Python, Django, MySQL, JavaScript, TypeScript, React, Next.js, and Tailwind CSS.";
-    }
-
-    if (prompt.includes("project") || prompt.includes("work")) {
-      return "Kim has built systems like payroll management, game projects, and healthcare-related tracking tools such as CABMS.";
-    }
-
-    if (prompt.includes("what is cabms") || prompt.includes("about cabms")) {
-      return "CABMS is a multi-branch, role-based system for managing animal bite incidents, patient records, vaccination schedules, and follow-up appointments across clinics.";
-    }
-
-    if (
-      prompt.includes("system") ||
-      prompt.includes("cabms") ||
-      prompt.includes("payroll") ||
-      prompt.includes("kpokedex") ||
-      prompt.includes("sipa") ||
-      prompt.includes("pogs") ||
-      prompt.includes("cleanmoto")
-    ) {
-      return "Kim builds practical web systems including CABMS (animal bite monitoring), TB5 Payroll System, Kpokedex, Sipa Game, Pogs Game, and CleanMoto service management.";
-    }
-
-    if (prompt.includes("contact") || prompt.includes("email")) {
-      return "You can contact Kim at yamamotokim4@gmail.com.";
-    }
-
-    if (!hasPortfolioSignal) {
-      return "I can only answer questions related to this portfolio and Kim's work. Please ask about profile, projects, systems, skills, services, or contact details.";
-    }
-
-    return "I can help with portfolio topics. Try asking: who is Kim, what systems are available, what can you build for clients, what services do you offer, or contact.";
+    return payload.reply;
   }
 
   async function submitChatPrompt(input: string) {
     const trimmedInput = input.trim();
-    if (!trimmedInput) {
-      return;
-    }
+    if (!trimmedInput) return;
+
+    const historyPayload: ChatApiHistoryMessage[] = chatMessages.slice(-10).map((message) => ({
+      role: message.sender === "user" ? "user" : "assistant",
+      content: message.text
+    }));
 
     const userMessage: ChatMessage = {
       id: Date.now(),
@@ -500,18 +301,27 @@ export function PortfolioPage() {
     setChatInput("");
     setIsBotTyping(true);
 
-    const minTypingDuration = 650;
+    try {
+      const llmReply = await getLocalLlmReply(trimmedInput, historyPayload);
 
-    await new Promise((resolve) => window.setTimeout(resolve, minTypingDuration));
+      const botMessage: ChatMessage = {
+        id: Date.now() + 1,
+        sender: "bot",
+        text: llmReply
+      };
 
-    const botMessage: ChatMessage = {
-      id: Date.now() + 1,
-      sender: "bot",
-      text: getChatbotReply(trimmedInput)
-    };
+      setChatMessages((current) => [...current, botMessage]);
+    } catch {
+      const botMessage: ChatMessage = {
+        id: Date.now() + 1,
+        sender: "bot",
+        text: "Sorry, I'm having trouble connecting right now. Try again in a moment!"
+      };
 
-    setChatMessages((current) => [...current, botMessage]);
-    setIsBotTyping(false);
+      setChatMessages((current) => [...current, botMessage]);
+    } finally {
+      setIsBotTyping(false);
+    }
   }
 
   function handleChatSubmit(event: FormEvent<HTMLFormElement>) {
@@ -668,26 +478,6 @@ export function PortfolioPage() {
       <section id="work" className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">
         <div className="mb-8 flex items-end justify-between gap-4">
           <h2 className="font-[family-name:var(--font-syne)] text-3xl text-white md:text-4xl">Selected Projects</h2>
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={showPreviousProject}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200/20 bg-slate-900/55 text-slate-100 transition hover:border-sky-300/55 hover:text-sky-300"
-              aria-label="Previous project"
-              disabled={filteredProjects.length <= 1}
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={showNextProject}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200/20 bg-slate-900/55 text-slate-100 transition hover:border-sky-300/55 hover:text-sky-300"
-              aria-label="Next project"
-              disabled={filteredProjects.length <= 1}
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
-          </div>
         </div>
 
         <div className="mb-6 flex flex-wrap gap-2">
@@ -713,54 +503,61 @@ export function PortfolioPage() {
           </div>
         ) : (
 
-        <motion.article
-          key={activeProject.title}
-          initial={{ opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, ease: "easeOut" }}
-          className="grid gap-6 rounded-3xl border border-slate-200/15 bg-slate-900/52 p-5 shadow-card backdrop-blur md:grid-cols-[1.2fr_1fr] md:p-6"
-        >
-          <div className="relative overflow-hidden rounded-2xl border border-slate-200/10 bg-slate-950/55">
-            <div className="relative h-[240px] w-full md:h-[330px]">
-              <Image
-                src={activeProject.images[activeProjectImageIndex]}
-                alt={`${activeProject.title} screenshot ${activeProjectImageIndex + 1}`}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 60vw"
-              />
-            </div>
-
-            <button
-              type="button"
-              onClick={showPreviousImage}
-              className="absolute left-3 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200/25 bg-slate-900/70 text-slate-100 transition hover:border-sky-300/65 hover:text-sky-300"
-              aria-label="Previous project image"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-
-            <button
-              type="button"
-              onClick={showNextImage}
-              className="absolute right-3 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200/25 bg-slate-900/70 text-slate-100 transition hover:border-sky-300/65 hover:text-sky-300"
-              aria-label="Next project image"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
-
-            <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full bg-slate-900/65 px-3 py-1">
-              {activeProject.images.map((image, index) => (
-                <button
-                  key={image}
-                  type="button"
-                  onClick={() => setActiveProjectImageIndex(index)}
-                  className={`h-2.5 w-2.5 rounded-full transition ${
-                    index === activeProjectImageIndex ? "bg-sky-300" : "bg-slate-300/45 hover:bg-slate-200/75"
-                  }`}
-                  aria-label={`Show image ${index + 1}`}
+        <div className="space-y-4">
+          <motion.article
+            key={activeProject.title}
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+            className="grid gap-6 rounded-3xl border border-slate-200/15 bg-slate-900/52 p-5 shadow-card backdrop-blur md:grid-cols-[1.2fr_1fr] md:p-6"
+          >
+          <div className="space-y-3">
+            <div className="relative overflow-hidden rounded-2xl border border-slate-200/10 bg-slate-950/55">
+              <div className="relative h-[240px] w-full md:h-[330px]">
+                <Image
+                  src={activeProject.images[activeProjectImageIndex]}
+                  alt={`${activeProject.title} screenshot ${activeProjectImageIndex + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 60vw"
                 />
-              ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={showPreviousImage}
+                className="absolute left-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200/30 bg-slate-950/75 text-slate-100 shadow-lg transition hover:border-sky-300/65 hover:text-sky-300 disabled:cursor-not-allowed disabled:opacity-45"
+                aria-label="Previous project image"
+                disabled={activeProject.images.length <= 1}
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+
+              <button
+                type="button"
+                onClick={showNextImage}
+                className="absolute right-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200/30 bg-slate-950/75 text-slate-100 shadow-lg transition hover:border-sky-300/65 hover:text-sky-300 disabled:cursor-not-allowed disabled:opacity-45"
+                aria-label="Next project image"
+                disabled={activeProject.images.length <= 1}
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+
+              <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full bg-slate-900/65 px-3 py-1">
+                {activeProject.images.map((image, index) => (
+                  <button
+                    key={image}
+                    type="button"
+                    onClick={() => setActiveProjectImageIndex(index)}
+                    className={`rounded-full transition-all ${
+                      index === activeProjectImageIndex
+                        ? "h-2.5 w-5 bg-sky-300"
+                        : "h-2.5 w-2.5 bg-slate-300/45 hover:bg-slate-200/75"
+                    }`}
+                    aria-label={`Show image ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
@@ -777,17 +574,43 @@ export function PortfolioPage() {
               ))}
             </div>
 
-            <div className="mt-6 flex items-center justify-between gap-4">
-              <p className="text-xs uppercase tracking-[0.16em] text-slate-300/70">
-                Project {activeProjectIndex + 1} of {filteredProjects.length}
-              </p>
+            <div className="mt-auto pt-6 flex items-center justify-end gap-4">
               <a href={activeProject.link} className="inline-flex items-center gap-1 text-sm font-semibold text-clay">
                 Open Project
                 <ArrowUpRight className="h-4 w-4" />
               </a>
             </div>
           </div>
-        </motion.article>
+          </motion.article>
+
+          <div className="flex items-center justify-between px-1">
+            <button
+              type="button"
+              onClick={showPreviousProject}
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200/20 bg-slate-900/55 px-4 py-2 text-sm text-slate-200 transition hover:border-sky-300/55 hover:text-sky-200 disabled:cursor-not-allowed disabled:opacity-45"
+              aria-label="Previous project"
+              disabled={filteredProjects.length <= 1}
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Previous
+            </button>
+
+            <span className="text-xs uppercase tracking-[0.16em] text-slate-400">
+              Project {activeProjectIndex + 1} of {filteredProjects.length}
+            </span>
+
+            <button
+              type="button"
+              onClick={showNextProject}
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200/20 bg-slate-900/55 px-4 py-2 text-sm text-slate-200 transition hover:border-sky-300/55 hover:text-sky-200 disabled:cursor-not-allowed disabled:opacity-45"
+              aria-label="Next project"
+              disabled={filteredProjects.length <= 1}
+            >
+              Next
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
         )}
       </section>
 

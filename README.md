@@ -25,6 +25,7 @@ Copy `.env.example` to `.env.local` and set values:
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
+- `GEMINI_API_KEY` (for portfolio chatbot)
 
 ## 4) Supabase table setup
 
@@ -41,6 +42,6 @@ Open http://localhost:3000
 ## Notes
 
 - Contact form posts to `POST /api/contact` and stores data in `contact_messages`.
-- Chat widget currently runs in local rule-based mode (free, no external AI API required).
+- Chat widget posts to `POST /api/chat` (Google Gemini) and shows a friendly error if unavailable.
 - Update content arrays in `src/data/site.ts`.
 - Replace placeholder links in projects with live case studies.
