@@ -121,27 +121,55 @@ function getFallbackReply(message: string) {
   return "I can help with Kim's portfolio details. Ask about his skills, projects, services, education, or contact information.";
 }
 
+function buildDebugInfo(extra: Record<string, unknown> = {}) {
+  return {
+    nodeEnv: process.env.NODE_ENV || "unknown",
+    hasGeminiKey: Boolean(process.env.GEMINI_API_KEY),
+    configuredModel: process.env.GEMINI_MODEL || "gemini-2.5-flash",
+    ...extra
+  };
+}
+
 export async function POST(req: NextRequest) {
   try {
     const payload = await req.json();
     const parsed = chatSchema.safeParse(payload);
 
     if (!parsed.success) {
-      return NextResponse.json({ error: "Invalid chat payload" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid chat payload", debug: buildDebugInfo({ reason: "invalid_payload" }) },
+        { status: 400 }
+      );
     }
 
     const normalizedMessage = parsed.data.message.trim().toLowerCase();
     if (normalizedMessage === "who am i" || normalizedMessage === "who am i?") {
-      return NextResponse.json({ reply: getWhoAmIReply() }, { status: 200 });
+      return NextResponse.json(
+        { reply: getWhoAmIReply(), debug: buildDebugInfo({ reason: "who_am_i_shortcut" }) },
+        { status: 200 }
+      );
     }
 
     if (!isPortfolioRelated(parsed.data.message, parsed.data.history)) {
-      return NextResponse.json({ reply: getOutOfScopeReply(), outOfScope: true }, { status: 200 });
+      return NextResponse.json(
+        {
+          reply: getOutOfScopeReply(),
+          outOfScope: true,
+          debug: buildDebugInfo({ reason: "out_of_scope_filter" })
+        },
+        { status: 200 }
+      );
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      return NextResponse.json({ error: "GEMINI_API_KEY is not configured" }, { status: 503 });
+      return NextResponse.json(
+        {
+          error: "GEMINI_API_KEY is not configured",
+          debug: buildDebugInfo({ reason: "missing_api_key" })
+        },
+        { status: 503 }
+      );
     }
 
     const geminiContents = (parsed.data.history || []).map((message) => ({
@@ -157,8 +185,11 @@ export async function POST(req: NextRequest) {
 
     let response: Response | null = null;
     let responseText = "";
+    const attemptedModels: string[] = [];
+    let usedModel: string | null = null;
 
     for (const model of modelCandidates) {
+      attemptedModels.push(model);
       response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
         {
@@ -180,6 +211,7 @@ export async function POST(req: NextRequest) {
       );
 
       if (response.ok) {
+        usedModel = model;
         break;
       }
 
@@ -190,7 +222,13 @@ export async function POST(req: NextRequest) {
     }
 
     if (!response) {
-      return NextResponse.json({ error: "Gemini request did not execute" }, { status: 500 });
+      return NextResponse.json(
+        {
+          error: "Gemini request did not execute",
+          debug: buildDebugInfo({ reason: "no_provider_response", attemptedModels })
+        },
+        { status: 500 }
+      );
     }
 
     if (!response.ok) {
@@ -202,7 +240,12 @@ export async function POST(req: NextRequest) {
           {
             reply: getFallbackReply(parsed.data.message),
             fallback: true,
-            warning: "Gemini quota/billing issue detected. Using fallback assistant response."
+            warning: "Gemini quota/billing issue detected. Using fallback assistant response.",
+            debug: buildDebugInfo({
+              reason: "provider_quota_or_billing",
+              attemptedModels,
+              providerStatus: response.status
+            })
           },
           { status: 200 }
         );
@@ -214,7 +257,12 @@ export async function POST(req: NextRequest) {
           fallback: true,
           warning: `Gemini API request failed (${response.status}). Using fallback assistant response.`,
           providerStatus: response.status,
-          providerError: providerError.slice(0, 500)
+          providerError: providerError.slice(0, 500),
+          debug: buildDebugInfo({
+            reason: "provider_request_failed",
+            attemptedModels,
+            providerStatus: response.status
+          })
         },
         { status: 200 }
       );
@@ -226,8 +274,14 @@ export async function POST(req: NextRequest) {
 
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "Sorry, I couldn't generate a reply.";
 
-    return NextResponse.json({ reply });
+    return NextResponse.json({
+      reply,
+      debug: buildDebugInfo({ reason: "provider_success", attemptedModels, usedModel })
+    });
   } catch {
-    return NextResponse.json({ error: "Unexpected server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Unexpected server error", debug: buildDebugInfo({ reason: "unexpected_exception" }) },
+      { status: 500 }
+    );
   }
 }
