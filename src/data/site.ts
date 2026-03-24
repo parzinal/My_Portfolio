@@ -86,7 +86,6 @@ export const projects: PortfolioProject[] = [
     stack: ["PHP", "HTML, CSS, JavaScript", "MySQL"],
     systemTypes: [
       "Service Management System",
-      "POS (Point of Sale)",
       "Inventory Management System",
       "HR Management System",
       "Payroll System",
