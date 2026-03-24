@@ -18,6 +18,25 @@ export const projects: PortfolioProject[] = [
     link: "#"
   },
   {
+    title: "Centralized Animal Bite Monitoring System (CABMS)",
+    category: "Healthcare Information System",
+    summary:
+      "CABMS is a multi-branch, role-based web application designed for managing animal bite incidents, patient records, vaccination schedules, and follow-up appointments across multiple clinics (branches).",
+    stack: ["PHP", "HTML, CSS, JavaScript", "MySQL"],
+    systemTypes: [
+      "Healthcare Information System",
+      "Patient Management System",
+      "Vaccination Tracking System",
+      "Web Application"
+    ],
+    images: [
+      "/images/projects/cams1.jpg",
+      "/images/projects/cams2.jpg",
+      "/images/projects/cams3.jpg"
+    ],
+    link: "#"
+  },
+  {
     title: "Kpokedex Project",
     category: "Pokemon Collection",
     summary:
