@@ -39,9 +39,9 @@ export const projects: PortfolioProject[] = [
     stack: ["PHP", "HTML, CSS, JavaScript", "MySQL"],
     systemTypes: ["Game System", "Web Application"],
     images: [
-      "/images/projects/sipa-1.svg",
-      "/images/projects/sipa-2.svg",
-      "/images/projects/sipa-3.svg"
+      "/images/projects/sipa1.jpg",
+      "/images/projects/sipa2.jpg",
+      "/images/projects/sipa3.jpg"
     ],
     link: "#"
   },
