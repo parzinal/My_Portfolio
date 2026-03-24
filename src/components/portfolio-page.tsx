@@ -269,14 +269,27 @@ export function PortfolioPage() {
       body: JSON.stringify({ message: userPrompt, history })
     });
 
+    const payload = (await response.json()) as {
+      reply?: string;
+      error?: string;
+      providerStatus?: number;
+      debug?: {
+        reason?: string;
+        hasGeminiKey?: boolean;
+        configuredModel?: string;
+      };
+    };
+
     if (!response.ok) {
-      throw new Error("Local LLM request failed");
+      const reason = payload.debug?.reason || "request_failed";
+      const statusInfo = payload.providerStatus ? ` provider:${payload.providerStatus}` : "";
+      const modelInfo = payload.debug?.configuredModel ? ` model:${payload.debug.configuredModel}` : "";
+      throw new Error(`Chat API error (${response.status}) [${reason}]${statusInfo}${modelInfo}`);
     }
 
-    const payload = (await response.json()) as { reply?: string; error?: string };
-
     if (!payload.reply) {
-      throw new Error(payload.error || "No LLM reply available");
+      const reason = payload.debug?.reason || "no_reply";
+      throw new Error(payload.error || `No LLM reply available [${reason}]`);
     }
 
     return payload.reply;
@@ -311,11 +324,12 @@ export function PortfolioPage() {
       };
 
       setChatMessages((current) => [...current, botMessage]);
-    } catch {
+    } catch (error) {
+      const errorText = error instanceof Error ? error.message : "Unknown chat error";
       const botMessage: ChatMessage = {
         id: Date.now() + 1,
         sender: "bot",
-        text: "Sorry, I'm having trouble connecting right now. Try again in a moment!"
+        text: `Sorry, I can't reach the AI right now. ${errorText}`
       };
 
       setChatMessages((current) => [...current, botMessage]);
