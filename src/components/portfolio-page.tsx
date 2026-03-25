@@ -350,7 +350,7 @@ export function PortfolioPage() {
       <div className="relative z-10">
 
       <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6 md:px-10">
-        <p className="font-[family-name:var(--font-syne)] text-xl font-semibold tracking-tight text-white">Kim Yamamoto</p>
+        <p className="text-xl font-semibold tracking-tight text-white">Kim Yamamoto</p>
         <div className="flex items-center gap-6">
           <nav className="hidden gap-6 md:flex">
           {navItems.map((item) => (
@@ -401,11 +401,11 @@ export function PortfolioPage() {
             Future Software Engineer
           </div>
 
-          <h1 className="font-[family-name:var(--font-syne)] text-5xl leading-[1.02] text-white md:text-7xl">
+          <h1 className="text-5xl leading-[1.02] text-white md:text-7xl">
             I&apos;m Kim Yamamoto
           </h1>
 
-          <p className="font-mono text-sm uppercase tracking-[0.18em] text-sky-300">
+          <p className="text-sm uppercase tracking-[0.18em] text-sky-300">
             {typedRole}
             <span className="ml-1 inline-block h-4 w-[2px] animate-pulse bg-sky-200 align-middle" />
           </p>
@@ -435,12 +435,12 @@ export function PortfolioPage() {
 
       <section id="about" className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">
         <div className="mb-8 text-center">
-          <h2 className="font-[family-name:var(--font-syne)] text-3xl text-white md:text-4xl">About Me</h2>
+          <h2 className="text-3xl text-white md:text-4xl">About Me</h2>
           <div className="mx-auto mt-4 h-px w-20 bg-sky-300/70" />
         </div>
 
         <div className="mx-auto max-w-4xl rounded-[2rem] border border-slate-200/20 bg-slate-900/45 p-7 backdrop-blur md:p-8">
-          <h3 className="font-[family-name:var(--font-syne)] text-3xl text-white">Who I Am</h3>
+          <h3 className="text-3xl text-white">Who I Am</h3>
           <p className="mt-4 text-base leading-relaxed text-slate-200/85">
             I&apos;m a Future Software Engineer from Calauan, Laguna, studying at PUP Calauan Campus. I build web applications that solve real problems not just ones that look good. Clean code, clear thinking, and a hunger to keep growing.
           </p>
@@ -491,7 +491,7 @@ export function PortfolioPage() {
 
       <section id="work" className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">
         <div className="mb-8 flex items-end justify-between gap-4">
-          <h2 className="font-[family-name:var(--font-syne)] text-3xl text-white md:text-4xl">Selected Projects</h2>
+          <h2 className="text-3xl text-white md:text-4xl">Selected Projects</h2>
         </div>
 
         <div className="mb-6 flex flex-wrap gap-2">
@@ -577,7 +577,7 @@ export function PortfolioPage() {
 
           <div className="flex h-full flex-col">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-300">{activeProject.category}</p>
-            <h3 className="mt-3 font-[family-name:var(--font-syne)] text-3xl text-white">{activeProject.title}</h3>
+            <h3 className="mt-3 text-3xl text-white">{activeProject.title}</h3>
             <p className="mt-4 text-sm leading-relaxed text-slate-200/82">{activeProject.summary}</p>
 
             <div className="mt-5 flex flex-wrap gap-2">
@@ -629,7 +629,7 @@ export function PortfolioPage() {
       </section>
 
       <section id="technology" className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">
-        <h2 className="font-[family-name:var(--font-syne)] text-3xl text-white md:text-4xl">Technologies &amp; Tools</h2>
+        <h2 className="text-3xl text-white md:text-4xl">Technologies &amp; Tools</h2>
         <div className="mt-7 rounded-3xl border border-slate-200/15 bg-slate-900/52 p-6 md:p-7">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-300/75">What I Work With</p>
 
@@ -720,7 +720,7 @@ export function PortfolioPage() {
       </section>
 
       <section id="services" className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">
-        <h2 className="font-[family-name:var(--font-syne)] text-3xl text-white md:text-4xl">Services</h2>
+        <h2 className="text-3xl text-white md:text-4xl">Services</h2>
         <div className="mt-7 grid gap-5 md:grid-cols-3">
           {services.map((service, index) => (
             <motion.div
@@ -731,7 +731,7 @@ export function PortfolioPage() {
               transition={{ delay: index * 0.08 }}
               className="rounded-3xl border border-slate-200/15 bg-slate-900/52 p-6"
             >
-              <h3 className="font-[family-name:var(--font-syne)] text-2xl text-white">{service.title}</h3>
+              <h3 className="text-2xl text-white">{service.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-slate-200/80">{service.details}</p>
             </motion.div>
           ))}
@@ -740,7 +740,7 @@ export function PortfolioPage() {
 
       <section id="contact" className="mx-auto w-full max-w-4xl px-6 pb-24 md:px-10">
         <div className="rounded-[2rem] border border-slate-200/15 bg-slate-900/58 p-7 shadow-card md:p-10">
-          <h2 className="font-[family-name:var(--font-syne)] text-3xl text-white md:text-4xl">Let us build something unforgettable.</h2>
+          <h2 className="text-3xl text-white md:text-4xl">Let us build something unforgettable.</h2>
           <p className="mt-3 text-sm text-slate-200/80">Send a message and I will reply with scope, timeline, and next steps.</p>
 
           <form className="mt-8 grid gap-4" onSubmit={handleSubmit}>

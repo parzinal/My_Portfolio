@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Syne } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk"
-});
-
-const syne = Syne({
-  subsets: ["latin"],
-  variable: "--font-syne"
 });
 
 export const metadata: Metadata = {
@@ -29,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning className={`${spaceGrotesk.variable} ${syne.variable} antialiased`}>
+      <body suppressHydrationWarning className={`${spaceGrotesk.variable} antialiased`}>
         {children}
       </body>
     </html>
